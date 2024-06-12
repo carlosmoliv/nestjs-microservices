@@ -19,6 +19,7 @@ services:
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./apps/workflows-service:/usr/src/app/apps/workflows-service
+      - ./usr/src/app/node_modules
     depends_on:
       - workflows-db
   workflows-db:
@@ -47,6 +48,7 @@ services:
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./apps/virtual-facility:/usr/src/app/apps/virtual-facility
+      - ./usr/src/app/node_modules
     depends_on:
       - virtual-facility-db
       - workflows-service
