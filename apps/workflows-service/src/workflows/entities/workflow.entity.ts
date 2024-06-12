@@ -9,5 +9,5 @@ export class Workflow {
   name: string;
 
   @Column()
-  buildingId: string;
+  buildingId: number;
 }

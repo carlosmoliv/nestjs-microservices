@@ -5,5 +5,5 @@ export class CreateWorkflowDto {
   name: string;
 
   @IsNumber()
-  buildingId: string;
+  buildingId: number;
 }
