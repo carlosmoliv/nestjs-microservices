@@ -109,7 +109,7 @@ services:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
-      - ./apps/alarms-generator:/usr/src/app/apps/alarms-classifier-service
+      - ./apps/alarms-classifier-service:/usr/src/app/apps/alarms-classifier-service
     depends_on:
       - nats
   notifications-service:
@@ -125,6 +125,6 @@ services:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
-      - ./apps/alarms-generator:/usr/src/app/apps/notifications-service
+      - ./apps/notifications-service:/usr/src/app/apps/notifications-service
     depends_on:
       - nats
