@@ -1,12 +1,19 @@
-import { Controller, Get } from '@nestjs/common';
-import { AlarmsClassifierServiceService } from './alarms-classifier-service.service';
+import { Controller, Logger } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class AlarmsClassifierServiceController {
-  constructor(private readonly alarmsClassifierServiceService: AlarmsClassifierServiceService) {}
+  private readonly logger = new Logger(AlarmsClassifierServiceController.name);
 
-  @Get()
-  getHello(): string {
-    return this.alarmsClassifierServiceService.getHello();
+  @MessagePattern('alarm.classify')
+  classifyAlarm(@Payload() data: unknown) {
+    this.logger.debug(
+      `Received new "alarm.classify" message: ${JSON.stringify(data)}`,
+    );
+    return {
+      category: ['critical', 'non-critical', 'invalid'][
+        Math.floor(Math.random() * 3)
+      ],
+    };
   }
 }

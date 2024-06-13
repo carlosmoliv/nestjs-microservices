@@ -1,12 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
-import { NotificationsServiceService } from './notifications-service.service';
+import { Controller, Logger } from '@nestjs/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class NotificationsServiceController {
-  constructor(private readonly notificationsServiceService: NotificationsServiceService) {}
+  private readonly logger = new Logger(NotificationsServiceController.name);
 
-  @Get()
-  getHello(): string {
-    return this.notificationsServiceService.getHello();
+  @EventPattern('notification.send')
+  sendNotification(@Payload() data: unknown) {
+    this.logger.debug(
+      `Sending notification about the alarm: ${JSON.stringify(data)}`,
+    );
   }
 }
