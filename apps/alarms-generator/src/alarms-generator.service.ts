@@ -10,12 +10,12 @@ export class AlarmsGeneratorService {
     private readonly alarmsService: ClientProxy,
   ) {}
 
-  @Interval(100000)
-  getHello() {
+  @Interval(10000)
+  generateAlarm() {
     const alarmCreatedEvent = {
       name: 'Alarm #' + Math.floor(Math.random() * 1000) + 1,
       buildingId: Math.floor(Math.random() * 100) + 1,
     };
-    this.alarmsService.emit('alarms.created', alarmCreatedEvent);
+    this.alarmsService.emit('alarm.created', alarmCreatedEvent);
   }
 }
