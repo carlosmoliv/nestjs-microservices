@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Outbox } from './entities/outbox.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { WORKFLOWS_SERVICE } from '../constants';
+import { OutboxProcessor } from './outbox.processor';
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { WORKFLOWS_SERVICE } from '../constants';
       },
     ]),
   ],
-  providers: [OutboxService],
+  providers: [OutboxService, OutboxProcessor],
 })
 export class OutboxModule {}
