@@ -42,7 +42,7 @@ export class OutboxProcessor {
     );
   }
 
-  private async dispatchWorkflowEvent(outbox: Outbox) {
+  async dispatchWorkflowEvent(outbox: Outbox) {
     const rmqRecord = new RmqRecord(outbox.payload, {
       messageId: `${outbox.id}`,
     });

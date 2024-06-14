@@ -5,6 +5,7 @@ import { Outbox } from './entities/outbox.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { WORKFLOWS_SERVICE } from '../constants';
 import { OutboxProcessor } from './outbox.processor';
+import { OutboxEntitySubscriber } from './outbox.entity-subscriber';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { OutboxProcessor } from './outbox.processor';
       },
     ]),
   ],
-  providers: [OutboxService, OutboxProcessor],
+  providers: [OutboxService, OutboxProcessor, OutboxEntitySubscriber],
 })
 export class OutboxModule {}
