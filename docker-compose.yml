@@ -15,8 +15,6 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=workflows
       - RABBITMQ_URL=amqp://rabbitmq:5672
-    deploy:
-      replicas: 3
     volumes:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
@@ -130,3 +128,8 @@ services:
       - nats
   rabbitmq:
     image: rabbitmq:3-management
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
