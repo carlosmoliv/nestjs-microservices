@@ -8,24 +8,29 @@ services:
       args:
         - APP_NAME=workflows-service
     command: npm run start:dev -- workflows-service
-    environment:
+    environment: # Specified environment variables that will be passed to the container
       - POSTGRES_HOST=workflows-db
       - POSTGRES_PORT=5432
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=workflows
       - RABBITMQ_URL=amqp://rabbitmq:5672
+    deploy:
+      replicas: 3 # This instructs Docker Compose to start 3 instances of the "workflows-service" container
     volumes:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
+      # Note: This is usually not a good practice to mount the "node_modules" directory on the host to the container
+      # This instructs Docker Compose to mount the "workflows-service" directory  on the host to the "/usr/src/app"
+      # This allows us to make changes to the code on the host and have them reflected in the container before starting the "workflows-service"
       - ./apps/workflows-service:/usr/src/app/apps/workflows-service
-    depends_on:
+    depends_on: # This instructs Docker Compose to start the "workflows-db" container before starting the "workflows-service"
       - workflows-db
       - rabbitmq
   workflows-db:
     image: postgres:13.2-alpine
-    environment:
+    environment: # Making sure these environment variables match the ones we specified in the "workflows-service"
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=workflows
@@ -49,6 +54,7 @@ services:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
+      # Note: This is usually not a good practice to mount the "node_modules" directory on the host to the container
       - ./apps/virtual-facility:/usr/src/app/apps/virtual-facility
     depends_on:
       - virtual-facility-db
@@ -76,6 +82,7 @@ services:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
+      # Note: This is usually not a good practice to mount the "node_modules" directory on the host to the container
       - ./apps/alarms-service:/usr/src/app/apps/alarms-service
     depends_on:
       - nats
@@ -93,6 +100,7 @@ services:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
+      # Note: This is usually not a good practice to mount the "node_modules" directory on the host to the container
       - ./apps/alarms-generator:/usr/src/app/apps/alarms-generator
     depends_on:
       - nats
@@ -109,6 +117,7 @@ services:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
+      # Note: This is usually not a good practice to mount the "node_modules" directory on the host to the container
       - ./apps/alarms-classifier-service:/usr/src/app/apps/alarms-classifier-service
     depends_on:
       - nats
@@ -125,6 +134,7 @@ services:
       - ./libs:/usr/src/app/libs
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.json:/usr/src/app/tsconfig.json
+      # Note: This is usually not a good practice to mount the "node_modules" directory on the host to the container
       - ./apps/notifications-service:/usr/src/app/apps/notifications-service
     depends_on:
       - rabbitmq

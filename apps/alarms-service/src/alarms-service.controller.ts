@@ -20,6 +20,12 @@ export class AlarmsServiceController {
       `Received new "alarm.created" event: ${JSON.stringify(data)}`,
     );
 
+    // If we decided use choreography pattern instead,we would simply emit an event here and let other services to handle the workflow
+    //
+    // For example:
+    // 1."Alarms service" would emit and event to the "Alarm classifier service" to classify the alarm
+    // 2. "Alarm classifier service" would classify the alarm and emit an event to the "Notifications services" to notify other services about the classification.
+    // 3. "Notifications service" would subscribe to the "alarm.classified" event and notify other services about the classified alarm.
     const alarmClassification = await lastValueFrom(
       this.natsMessageBroker.send('alarm.classify', data),
     );

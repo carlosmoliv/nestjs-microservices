@@ -6,6 +6,8 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(WorkflowsServiceModule);
   app.useGlobalPipes(new ValidationPipe());
+
+  // Hybrid application supporting both http and rabbit mq...
   app.connectMicroservice<MicroserviceOptions>(
     {
       transport: Transport.RMQ,
